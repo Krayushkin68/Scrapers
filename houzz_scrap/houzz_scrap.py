@@ -6,11 +6,7 @@ def make_request(session, headers, link):
     try:
         content = session.get(link, headers=headers, timeout=5)
         if content.status_code == 200:
-            pass
-            # print('HTML page received')
-            # with open('test.html', 'wb') as f:
-            #     f.write(content.content)
-        return content.content
+            return content.content
     except Exception:
         print('connection error')
         return
@@ -84,5 +80,3 @@ if __name__ == '__main__':
                 break
     for i in all_info:
         print(i)
-    # cont = make_request(session, headers, r'https://www.houzz.com/professionals/interior-decorators/forty-nine-interiors-pfvwus-pf~976567930')
-    # parse_page(cont)

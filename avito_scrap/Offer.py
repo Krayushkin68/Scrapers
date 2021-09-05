@@ -1,6 +1,6 @@
 import json
 from PIL import Image
-# import requests
+import requests
 import io
 
 

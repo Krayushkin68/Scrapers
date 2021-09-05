@@ -10,7 +10,6 @@ import pandas as pd
 def make_request(session, headers):
     content = session.get(r'https://slco.org/assessor/new/valuationInfoExpanded.cfm?parcel_id=16292010070000', headers=headers)
     if content.status_code == 200:
-        # pass
         print('HTML page received')
         with open('test2.html', 'wb') as f:
             f.write(content.content)
@@ -19,10 +18,6 @@ def make_request(session, headers):
 
 def parse_salt(content):
     html = Bs(content, 'html.parser')
-    # htmlparser = etree.HTMLParser()
-    # tree = etree.parse(content, htmlparser)
-    # name = tree.xpath('//*[@id="parcelFieldNames"]/div[2]/div/table/tbody/tr[1]/td')
-    # print(name)
     name = html.select('#parcelFieldNames > div.valueSummBox > div > table > tbody > tr:nth-child(1) > td')[0].contents[0]
     address = html.select('#parcelFieldNames > div.valueSummBox > div > table > tbody > tr:nth-child(2) > td')[0].contents[0]
     total_acreage = html.select('#parcelFieldNames > div.valueSummBox > div > table > tbody > tr:nth-child(3) > td > a')[0].contents[0]

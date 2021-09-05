@@ -1,5 +1,5 @@
 import requests
-from html_parse import parse_html, parse_html_json
+from html_parse import parse_html_json
 from sqlite import *
 
 
@@ -11,9 +11,12 @@ def make_request():
     city = 'moskva'
     category = 'tovary_dlya_kompyutera/komplektuyuschie/videokarty-ASgBAgICAkTGB~pm7gmmZw'
     page = '?p=<номер>'
-    content = session.get(f'https://www.avito.ru/{city}/{category}', headers=headers)
+    content = session.get(f'https://www.avito.ru/{city}/{category}', headers=headers, timeout=5)
     if content.status_code == 200:
         print('HTML page received')
+    else:
+        print('Connection aborted')
+        exit(0)
     return content.content, session
 
 
@@ -21,8 +24,6 @@ if __name__ == '__main__':
     content, session = make_request()
     offers = parse_html_json(content)
     con = sql_connection()
-    # drop_table(con)  # для теста
-    # create_table(con)
     insert_offers(con, offers)
     con.close()
     session.close()

@@ -1,3 +1,5 @@
 __pycache__/
+.idea/
+Result_data/
 res.jpg
 avito_sql.db
