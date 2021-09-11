@@ -1,6 +1,7 @@
 __pycache__/
 .idea/
 Result_data/
+data/
 res.jpg
 chromedriver.exe
 avito_sql.db
