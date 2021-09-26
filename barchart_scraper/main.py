@@ -1,28 +1,31 @@
-import requests
+# import requests
+import requests_html
+import fake_useragent
+from bs4 import BeautifulSoup as bs
 
-headers = {'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/93.0.4577.82 Safari/537.36'}
+user = fake_useragent.UserAgent().random
+headers = {'user-agent': user}
 login_url = 'https://www.barchart.com/login'
 
 login = 'angarragnar777@rambler.ru'
 password = 'Gfhjkmangarragnar777'
 
-payload = {'refcode': None,
-           'remember': True,
-           'email': login,
+payload = {'email': login,
            'password': password}
 
-rs = requests.Session()
-login_resp = rs.get(login_url, headers=headers)
+rs = requests_html.HTMLSession()
+logging = rs.post(login_url, headers=headers, data=payload)
 
-loged_page = rs.post(login_url, headers=headers, data=payload)
+main_page = 'https://www.barchart.com/'
+page = rs.get(main_page, headers=headers)
+page.html.render(sleep=1, keep_page=True)
 
-needed_url = 'https://www.barchart.com/options/most-active/stocks?orderBy=optionsTotalVolume&orderDir=desc'
-needed_page = rs.get(needed_url, headers=headers)
+with open('test.html', 'wb') as f:
+    f.write(page.content)
 
-
-download_url = 'https://www.barchart.com/my/download'
-download_url = rs.post(download_url, headers=headers)
-
-
-
+html = bs(page.content, 'html.parser')
+tag1 = html.select('span.bc-glyph-user')
+tag2 = html.select('a.bc-user-block__button')
+print(tag1)
+print(tag2)
 
