@@ -37,3 +37,7 @@ print('Main page code ', page.status_code)
 html = bs(page.content, 'html.parser')
 print(html)
 
+# request_url = 'https://www.barchart.com/proxies/core-api/v1/quotes/get?list=options.mostActive.us&fields=symbol%2CsymbolType%2CsymbolName%2ChasOptions%2ClastPrice%2CpriceChange%2CpercentChange%2CoptionsImpliedVolatilityRank1y%2CoptionsTotalVolume%2CoptionsPutVolumePercent%2CoptionsCallVolumePercent%2CoptionsPutCallVolumeRatio%2CtradeTime%2CsymbolCode&orderBy=optionsTotalVolume&orderDir=desc&between(lastPrice%2C.10%2C)=&between(tradeTime%2C2021-09-24%2C2021-09-27)=&meta=field.shortName%2Cfield.type%2Cfield.description&hasOptions=true&page=1&limit=100&raw=1'
+# request = rs.get(request_url, headers=headers)
+
+
