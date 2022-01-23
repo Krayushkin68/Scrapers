@@ -1,12 +1,12 @@
+import os
+from time import sleep
+
+import pandas as pd
+import requests
+from bs4 import BeautifulSoup as Bs
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
-from selenium.common.exceptions import NoSuchElementException
-import requests
-import os
-from time import sleep
-from bs4 import BeautifulSoup as Bs
-import pandas as pd
 
 
 def make_request(url):
@@ -33,7 +33,8 @@ def parse_main_page(content):
             continue
 
         try:
-            org = {'Country': cur_country, 'Facility Name': '', 'URL': '', 'Street Address': '', 'City': '', 'State': '',
+            org = {'Country': cur_country, 'Facility Name': '', 'URL': '', 'Street Address': '', 'City': '',
+                   'State': '',
                    'Zip': '', 'Phone Number': '', 'Type': '', 'Medicaid?': 'No', 'Medicare?': 'No', 'Private?': 'No'}
 
             org['URL'] = 'https://healthapps.state.nj.us/facilities/' + row.select('td > a')[0].get('href')
@@ -57,7 +58,6 @@ def parse_main_page(content):
         except Exception:
             continue
     return orgs
-
 
 
 def get_main_page():
@@ -88,6 +88,3 @@ if __name__ == '__main__':
     organizations = parse_main_page(main_content)
     df = pd.DataFrame(organizations)
     df.to_excel('data/sample.xlsx')
-
-
-

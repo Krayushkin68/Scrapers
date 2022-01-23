@@ -1,6 +1,7 @@
-from bs4 import BeautifulSoup as Bs
-import requests
 import re
+
+import requests
+from bs4 import BeautifulSoup as Bs
 
 link = r'https://trackapkg.com/a.duiepyle-tracking-number#couriers'
 
@@ -17,12 +18,11 @@ for i in bs.select('div.bottom-links.container > div.col-xs-12.col-md-3'):
         links_carrier.append('https://trackapkg.com/' + j.get('href'))
         print('https://trackapkg.com/' + j.get('href'))
 
-
 carriers = []
 for num, link in enumerate(links_carrier):
     r = requests.get(link)
     if r.status_code != 200:
-        print(f'error srap page {num+1}')
+        print(f'error srap page {num + 1}')
         exit(0)
 
     bs = Bs(r.content, 'html.parser')
@@ -36,6 +36,4 @@ for num, link in enumerate(links_carrier):
             onclick = bs.select_one('input#run').get('onclick')
             carrier['link'] = re.match("window.open\('(.*)',.*", onclick).group(1)
 
-    print(carrier)
     carriers.append(carrier)
-

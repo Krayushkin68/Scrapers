@@ -1,5 +1,5 @@
-from bs4 import BeautifulSoup as Bs
 from Offer import *
+from bs4 import BeautifulSoup as Bs
 from sqlite import *
 
 
@@ -67,7 +67,7 @@ def parse_html_json(content):
                 else:
                     o.price = int(price)
                 o.photo = list(i['gallery']['image_large_urls'].values())
-                o.geo = str(i['addressDetailed']['locationName']) + ' ' + str(i['geo']['geoReferences'][0]['content'])\
+                o.geo = str(i['addressDetailed']['locationName']) + ' ' + str(i['geo']['geoReferences'][0]['content']) \
                         + str(i['geo']['geoReferences'][0].get('after'))
                 o.time = i['iva']['DateInfoStep'][0]['payload']['absolute']
                 offers.append(o)

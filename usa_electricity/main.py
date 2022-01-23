@@ -1,9 +1,8 @@
-import requests
-import os
-from time import sleep
-from bs4 import BeautifulSoup as Bs
-import pandas as pd
 import json
+
+import pandas as pd
+import requests
+from bs4 import BeautifulSoup as Bs
 
 
 def make_request(url):
@@ -33,6 +32,3 @@ if __name__ == '__main__':
             info.append(res)
     df = pd.DataFrame(info)
     df.to_csv('data/info.csv')
-
-
-

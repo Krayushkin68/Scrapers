@@ -1,9 +1,10 @@
+import os
+import re
+import time
+
+from bs4 import BeautifulSoup as bs
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-from bs4 import BeautifulSoup as bs
-import os
-import time
-import re
 
 opts = Options()
 # opts.add_argument('--headless')

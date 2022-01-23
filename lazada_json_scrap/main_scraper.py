@@ -1,22 +1,21 @@
-from bs4 import BeautifulSoup as Bs
-import requests
 import json
-import pandas as pd
-from time import sleep, time
 import os
+from time import sleep
+
+import pandas as pd
+import requests
+from bs4 import BeautifulSoup as Bs
 
 
 def get_page_data(link):
-    global proxies
-    headers = {'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/93.0.4577.63 Safari/537.36'}
+    headers = {
+        'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/93.0.4577.63 Safari/537.36'}
     r = requests.get(link, headers=headers)
     if r.status_code != 200:
         print('Connection error')
         return None
     else:
         print('HTML page received')
-        # with open('data/test.html', 'wb') as f:
-        #     f.write(r.content)
         return r.content
 
 
@@ -28,14 +27,12 @@ def scrape_products_info(content):
             s = i.string.strip()
             if 'window.pageData' in s:
                 json_part = json.loads(s[s.find('{'): -1])
-                # with open('data/json_part.json', 'wt') as f:
-                #     json.dump(json_part, f)
 
     if json_part:
         trigger_next = True
-        if json_part['mainInfo'].get('pageSize') and json_part['mainInfo'].get('page')\
+        if json_part['mainInfo'].get('pageSize') and json_part['mainInfo'].get('page') \
                 and json_part['mainInfo'].get('totalResults'):
-            if int(json_part['mainInfo']['pageSize']) * int(json_part['mainInfo']['page']) >\
+            if int(json_part['mainInfo']['pageSize']) * int(json_part['mainInfo']['page']) > \
                     int(json_part['mainInfo']['totalResults']):
                 trigger_next = False
 
@@ -119,9 +116,9 @@ def download_main_images(items, path):
             if img.status_code == 200:
                 with open(filename, 'wb') as f:
                     f.write(img.content)
-                    print(f'Image № {num+1} / {img_count} downloaded')
+                    print(f'Image № {num + 1} / {img_count} downloaded')
         except Exception:
-            print(f'Image № {num+1} / {img_count} passed')
+            print(f'Image № {num + 1} / {img_count} passed')
             continue
 
 

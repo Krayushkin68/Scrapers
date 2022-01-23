@@ -1,7 +1,8 @@
+import json
+
+import pandas as pd
 import requests
 from bs4 import BeautifulSoup as Bs
-import json
-import pandas as pd
 
 
 def make_request(session, headers, link):
@@ -18,7 +19,7 @@ def get_links_from_main_page(content):
     html = Bs(content, 'html.parser')
     links = []
     li = html.select('#hz-page-content-wrapper > div > main > div > div.hz-card.mbl.hz-track-me > ul > li')
-    for i in range(1, len(li)+1):
+    for i in range(1, len(li) + 1):
         a = html.select(
             f'#hz-page-content-wrapper > div > main > div > div.hz-card.mbl.hz-track-me > ul > li:nth-child({i}) >'
             ' div.hz-pro-search-result > div.hz-pro-search-result__info > div.hz-pro-search-result__left-info.clearfix > '
@@ -33,8 +34,10 @@ def parse_page(content):
     name = ''
     city = ''
     foll = ''
-    name = html.select('#hz-page-content-wrapper > div.sc-183mtny-0.sc-1wm9uar-0.kVLgJv.ljilJP.hui-grid > main > header > div.sc-183mtny-0.fAraQc > div.sc-183mtny-0.gamUmb > h1')
-    table = html.select('#hz-page-content-wrapper > div.sc-183mtny-0.sc-1wm9uar-0.kVLgJv.ljilJP.hui-grid > div.sc-183mtny-0.sc-1uw6j8i-0.bRDPne.ecpWHO.hui-cell > div > div.sc-183mtny-0.sc-15uvirn-0.bLnFJI.eForze > div')
+    name = html.select(
+        '#hz-page-content-wrapper > div.sc-183mtny-0.sc-1wm9uar-0.kVLgJv.ljilJP.hui-grid > main > header > div.sc-183mtny-0.fAraQc > div.sc-183mtny-0.gamUmb > h1')
+    table = html.select(
+        '#hz-page-content-wrapper > div.sc-183mtny-0.sc-1wm9uar-0.kVLgJv.ljilJP.hui-grid > div.sc-183mtny-0.sc-1uw6j8i-0.bRDPne.ecpWHO.hui-cell > div > div.sc-183mtny-0.sc-15uvirn-0.bLnFJI.eForze > div')
     for i in table:
         search = i.select('span.mwxddt-0.IconRow___StyledText-sc-1f6s35j-1.hgfkgN.bkjkrD > span')
         if search:
@@ -88,7 +91,6 @@ def parse_page_new(content):
     html = Bs(content, 'html.parser')
     script = html.find('script', attrs={'type': 'application/ld+json'})
     script = json.loads(script.text)
-    # json.dump(script, open('test2.json', 'wt'))
 
     if len(script) > 0:
         shop = {'name': '', 'phone': '', 'url': '', 'address': ''}
@@ -110,7 +112,6 @@ def process_links_from_main_page(main_page_content):
     links = get_links_from_main_page(main_page_content)
 
     all_info = []
-    # print(links)
     for i in links:
         count = 0
         while True:
@@ -141,11 +142,10 @@ if __name__ == '__main__':
 
     for i in range(1, 4):
         print(f'Start processing page {i}')
-        url = url + f'/p/{i*15}'
+        url = url + f'/p/{i * 15}'
         cont = make_request(session, headers, url)
         if cont:
             print(f'Received page {i}')
-            # get_info_from_main_page(cont)
             info.extend(process_links_from_main_page(cont))
             print(f'Scraped page {i}')
 

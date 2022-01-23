@@ -1,6 +1,6 @@
-from bs4 import BeautifulSoup as Bs
-import requests
 import pandas as pd
+import requests
+from bs4 import BeautifulSoup as Bs
 
 link = r'https://sponsors.channelpartnersconference.com/products-and-services.php'
 

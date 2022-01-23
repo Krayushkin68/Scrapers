@@ -1,6 +1,6 @@
+import pandas as pd
 import requests
 from bs4 import BeautifulSoup as bs
-import pandas as pd
 
 url = r'https://www.sebi.gov.in/sebiweb/home/HomeAction.do?doListing=yes&sid=3&ssid=15&smid=10'
 r = requests.get(url, verify=False)
@@ -21,7 +21,6 @@ for el in soup.select('table')[0].select('tr'):
 
 df = pd.DataFrame(rows)
 
-
 needed_page = 2
 payload = {'nextValue': str(needed_page),
            'next': 'n',
@@ -41,5 +40,3 @@ payload = {'nextValue': str(needed_page),
            'doDirect': str(needed_page)}
 
 p = requests.post(f'https://www.sebi.gov.in/sebiweb/ajax/home/getnewslistinfo.jsp', verify=False, data=payload)
-
-

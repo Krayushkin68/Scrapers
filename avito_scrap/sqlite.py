@@ -1,4 +1,5 @@
 import sqlite3
+
 from Offer import Offer
 
 
@@ -64,7 +65,7 @@ def insert_offers(connection, offers):
         number_rows_after_insert = int(cursor.fetchone()[0])
         connection.commit()
         cursor.close()
-        print(f'{number_rows_after_insert-number_rows_before_insert} offers added successfully')
+        print(f'{number_rows_after_insert - number_rows_before_insert} offers added successfully')
     except sqlite3.Error as error:
         print('SQL ERROR: ', error.args)
 

@@ -1,14 +1,13 @@
+import os
+import sys
+import time
+
+import winsound
 from selenium import webdriver
+from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
-from selenium.common.exceptions import NoSuchElementException
-import os
-import winsound
-import time
 from win10toast import ToastNotifier
-import sys
-
-
 
 
 def beep(msg, duration=3000):
@@ -49,7 +48,7 @@ def check_ali():
             beep('Фиолетовый')
             print('purple')
         if 'active' in black:
-            beep('Черный',1000)
+            beep('Черный', 1000)
             print('black')
     else:
         print('Не появилось')

@@ -1,9 +1,9 @@
-import requests
 import json
 import os
-from bs4 import BeautifulSoup as Bs
-import pandas as pd
 
+import pandas as pd
+import requests
+from bs4 import BeautifulSoup as Bs
 
 requests.packages.urllib3.disable_warnings(requests.packages.urllib3.exceptions.InsecureRequestWarning)
 url = r'https://api.masterhelp.se/api/mh?page=1&pageSize=150&position=32&region=15&siteFilter=1'
@@ -32,7 +32,7 @@ for num, el in enumerate(data):
         if description:
             data[num]['fullDescription_html'] = description.strip()
             data[num]['fullDescription_text'] = Bs(description, 'html.parser').text.strip()
-            print(f'Description for job № {num+1} received.')
+            print(f'Description for job № {num + 1} received.')
     except Exception as e:
         print('Request error: ', e)
         continue

@@ -1,7 +1,8 @@
-import pandas as pd
-import numpy as np
-import time
 import os
+import time
+
+import numpy as np
+import pandas as pd
 
 
 def vec_length(a, b):
@@ -9,10 +10,11 @@ def vec_length(a, b):
 
 
 def vec_scalar_mult(a_1, a_2, b_1, b_2):
-    return (a_1[0]-a_2[0]) * (b_1[0]-b_2[0]) + (a_1[1]-a_2[1]) * (b_1[1]-b_2[1]) + (a_1[2]-a_2[2]) * (b_1[2]-b_2[2])
+    return (a_1[0] - a_2[0]) * (b_1[0] - b_2[0]) + (a_1[1] - a_2[1]) * (b_1[1] - b_2[1]) + (a_1[2] - a_2[2]) * (
+                b_1[2] - b_2[2])
 
 
-def calculate(npa, idx_cur_o, idx_next_o, delta_1, delta_2, params,  delta_par):
+def calculate(npa, idx_cur_o, idx_next_o, delta_1, delta_2, params, delta_par):
     cur_o = npa[idx_cur_o]
     cur_o_coords = np.array(cur_o[2:], dtype=float)
 
@@ -38,7 +40,7 @@ def calculate(npa, idx_cur_o, idx_next_o, delta_1, delta_2, params,  delta_par):
     scalar_multiply = vec_scalar_mult(cur_o_coords, first_c_coords, next_o_coords, second_c_coords)
     multiply_of_length = vec_length(cur_o_coords, first_c_coords) * vec_length(next_o_coords, second_c_coords)
     cos = scalar_multiply / multiply_of_length
-    angle = np.arccos(cos)/np.pi*180
+    angle = np.arccos(cos) / np.pi * 180
 
     par_results = []
     if params[0] == 'length':
@@ -137,9 +139,9 @@ def search_near(npa, cur_o_idx, c_idx, cur_delta):
     # префильтр по расстояниям
     par = 5
 
-    c_list = c_idx[np.where(((abs(abs(npa[c_idx][:, 2].astype(np.float32))-abs(cur_o_coords[0])) < par)) &
-                            (abs(abs(npa[c_idx][:, 3].astype(np.float32))-abs(cur_o_coords[1])) < par) &
-                            (abs(abs(npa[c_idx][:, 4].astype(np.float32))-abs(cur_o_coords[2])) < par))]
+    c_list = c_idx[np.where(((abs(abs(npa[c_idx][:, 2].astype(np.float32)) - abs(cur_o_coords[0])) < par)) &
+                            (abs(abs(npa[c_idx][:, 3].astype(np.float32)) - abs(cur_o_coords[1])) < par) &
+                            (abs(abs(npa[c_idx][:, 4].astype(np.float32)) - abs(cur_o_coords[2])) < par))]
 
     len_list = []
     for c in c_list[:]:
@@ -147,7 +149,7 @@ def search_near(npa, cur_o_idx, c_idx, cur_delta):
             c_p = npa[c]
             c_p_coords = np.array(c_p[2:], dtype=float)
             length = vec_length(cur_o_coords, c_p_coords)
-            len_list.append([c+1, length])
+            len_list.append([c + 1, length])
 
     len_list.sort(key=lambda x: x[1])
     ret_list_ind = [i[0] for i in len_list[:5]]
@@ -158,7 +160,7 @@ def search_near(npa, cur_o_idx, c_idx, cur_delta):
             ret_list_ind.append('-')
             ret_list_len.append('-')
 
-    return ret_list_ind+ret_list_len
+    return ret_list_ind + ret_list_len
 
 
 def calculate_one_page(npa, page_num, delta, params, delta_params):
@@ -174,7 +176,7 @@ def calculate_one_page(npa, page_num, delta, params, delta_params):
     calculated_results_angles = []
     calculated_results_par = []
 
-    for _ in range(params[1]+1):
+    for _ in range(params[1] + 1):
         calculated_results_par.append([])
 
     for el_num, el in enumerate(o_idx):
@@ -330,7 +332,8 @@ def search_near_page(npa, page_num, delta):
     df_near_8 = pd.DataFrame(search_results8, columns=[page_num])
     df_near_9 = pd.DataFrame(search_results9, columns=[page_num])
     df_near_10 = pd.DataFrame(search_results10, columns=[page_num])
-    return [df_near_1, df_near_2, df_near_3, df_near_4, df_near_5, df_near_6, df_near_7, df_near_8, df_near_9, df_near_10]
+    return [df_near_1, df_near_2, df_near_3, df_near_4, df_near_5, df_near_6, df_near_7, df_near_8, df_near_9,
+            df_near_10]
 
 
 def process_data(fname, data_type, **kwargs):
@@ -346,7 +349,7 @@ def process_data(fname, data_type, **kwargs):
                         ind = t.rfind('-')
                         el1 = t[:ind]
                         el2 = t[ind:]
-                        tmp = tmp[:num] + [el1, el2] + tmp[num+1:]
+                        tmp = tmp[:num] + [el1, el2] + tmp[num + 1:]
                     elif len(t) > 30:
                         print('x3 -100 error')
                 result.append(tmp[1:6])
@@ -362,7 +365,7 @@ def process_data(fname, data_type, **kwargs):
                         idx_data = np.where(npa[:, 1] == 'O')[0][::2] + 1
                         res_df_angles = pd.DataFrame(idx_data, columns=['idx'])
                         dfs_par = []
-                        for i in range(params[1]+1):
+                        for i in range(params[1] + 1):
                             res_df_par = pd.DataFrame(idx_data, columns=['idx'])
                             dfs_par.append(res_df_par)
                     # ---------- process page --------
@@ -454,8 +457,9 @@ def process_obu_or_ome(filename, data_type, extra_params):
             deltas_params = [42, 38, 24, 21]
         else:
             # здесь просто в правильном порядке встроятся дополнительные параметры
-            parameters = ['length', 2+extra_params[0]]
-            deltas_params = [42, 38] + extra_params[1:extra_params[0]+1] + [24, 21] + extra_params[extra_params[0]+1:]
+            parameters = ['length', 2 + extra_params[0]]
+            deltas_params = [42, 38] + extra_params[1:extra_params[0] + 1] + [24, 21] + extra_params[
+                                                                                        extra_params[0] + 1:]
     # ------- for Me ----------------------
     if data_type == 2:
         if not extra_params:
@@ -502,7 +506,7 @@ def process_obu_or_ome(filename, data_type, extra_params):
     except Exception:
         print('Error while writing to excel...\nTry again')
         exit(0)
-    print(f'Angles, length and {len(process_results[1])-1} params written to excel')
+    print(f'Angles, length and {len(process_results[1]) - 1} params written to excel')
 
 
 def process_meome(filename, data_type):
@@ -571,7 +575,7 @@ def process_near(filename, data_type):
     try:
         for num, i in enumerate(res):
             if num < 5:
-                i.to_excel(filename[:-4] + f'_near_id_{num+1}.xlsx')
+                i.to_excel(filename[:-4] + f'_near_id_{num + 1}.xlsx')
             else:
                 i.to_excel(filename[:-4] + f'_near_len_{num - 4}.xlsx')
     except Exception:
@@ -590,7 +594,7 @@ if __name__ == '__main__':
         filename = input('Введите название файла:\n')
 
     data_type = input('Выберите тип данных:\n1 - OBu, 2 - OMe, 3 - MeOMe, '
-                          '4 - Bu_near, 5 - Me_near, 6 - MeOMe_near\n')
+                      '4 - Bu_near, 5 - Me_near, 6 - MeOMe_near\n')
     while data_type not in ['1', '2', '3', '4', '5', '6']:
         data_type = input('Выберите тип данных:\n1 - OBu, 2 - OMe, 3 - MeOMe, '
                           '4 - Bu_near, 5 - Me_near, 6 - MeOMe_near\n')

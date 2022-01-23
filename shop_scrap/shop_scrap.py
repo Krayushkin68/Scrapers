@@ -1,7 +1,8 @@
-from bs4 import BeautifulSoup as Bs
-import requests
 import json
+
 import pandas as pd
+import requests
+from bs4 import BeautifulSoup as Bs
 
 link = r'https://www.lazada.com.ph/landmall/?q=All-Products&langFlag=en&from=wangpu&lang=en&pageTypeId=2'
 
@@ -11,17 +12,12 @@ if r.status_code != 200:
     exit(0)
 
 bs2 = Bs(r.content, 'html.parser')
-# with open('data/777.html', 'wb') as f:
-#     f.write(r.content)
 
 for i in bs2.select('script'):
     if i.string:
         s = i.string.strip()
         if 'window.pageData' in s:
             json_part = json.loads(s[s.find('{'): -1])
-            # with open('data/json_part.json', 'wt') as f:
-            #     json.dump(json_part, f)
-            # print(json_part)
 
 if json_part:
     items = json_part['mods']['listItems']
@@ -54,5 +50,4 @@ if json_part:
         scraped_items.append(item)
 
     df = pd.DataFrame(scraped_items)
-    # df.to_excel('data/scraped_shop.xlsx')
     print(df)

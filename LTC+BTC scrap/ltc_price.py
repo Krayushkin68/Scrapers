@@ -1,6 +1,7 @@
+import json
+
 import requests
 from bs4 import BeautifulSoup as Bs
-import json
 
 
 def get_price(coin):

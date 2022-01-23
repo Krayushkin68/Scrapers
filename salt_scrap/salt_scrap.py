@@ -1,10 +1,5 @@
-# https://slco.org/assessor/new/valuationInfoExpanded.cfm?parcel_id=16292010070000
 import requests
 from bs4 import BeautifulSoup as Bs
-from lxml import etree
-import json
-import re
-import pandas as pd
 
 
 def make_request(session, headers):
@@ -37,6 +32,7 @@ def parse_salt(content):
     print(f'land_val: {land_val}')
     print(f'build_val: {build_val}')
     print(f'market_val: {market_val}')
+
 
 if __name__ == '__main__':
     session = requests.session()

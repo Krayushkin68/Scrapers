@@ -1,7 +1,8 @@
-import json
-from PIL import Image
-import requests
 import io
+import json
+
+import requests
+from PIL import Image
 
 
 class Offer:
